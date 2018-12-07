@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>FrameChoosePage.qml</file>
+        <file>AddPhotoInFramePage.qml</file>
+        <file>WelcomePage.qml</file>
+        <file>LoadPage.qml</file>
+        <file>EditPage.qml</file>
+    </qresource>
+</RCC>
