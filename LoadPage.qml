@@ -16,6 +16,7 @@ Page {
 
             sourceSize.width: width
             sourceSize.height: height
+            autoTransform: true
 
             asynchronous: true
             source: "storage/emulated/0/Pictures/MaryJane_20181202_201044_3233264120936053090.png"

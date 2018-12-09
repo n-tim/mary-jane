@@ -31,9 +31,14 @@ Page {
 
                 source: photoPath
                 asynchronous: true
+                autoTransform: true
 
                 antialiasing: true
                 fillMode: Image.PreserveAspectFit
+
+                onRotationChanged: {
+                    console.log("rotation = " + rotation);
+                }
             }
 
             PinchArea {
