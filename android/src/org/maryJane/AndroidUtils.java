@@ -34,6 +34,7 @@ public class AndroidUtils extends QtActivity
 
     public static native void fileSelected(String fileName);
     public static native void photoTaken(String fileName);
+    public static native void galleryUpdated(String fileName);
 
     static final int REQUEST_OPEN_IMAGE = 1;
     static final int REQUEST_TAKE_PHOTO = 3;
@@ -59,6 +60,14 @@ public class AndroidUtils extends QtActivity
     //             photoTaken(mCurrentPhotoPath);
     //     }
     // };
+
+    public static String getImagesLocation() {
+        File path = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES);
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "/MaryJaneResult_" + timeStamp + "_";
+        return path.getAbsolutePath() + imageFileName;
+    }
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -102,6 +111,10 @@ public class AndroidUtils extends QtActivity
     protected void onDestroy()
     {
         super.onDestroy();
+    }
+
+    static void updateGallery(String path) {
+        m_instance.doUpdateGallery(path);
     }
 
     static void openAnImage()
@@ -158,6 +171,18 @@ public class AndroidUtils extends QtActivity
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void doUpdateGallery(String fileName) {
+        MediaScannerConnection.scanFile(this,
+                new String[] { fileName.toString() }, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+            public void onScanCompleted(String path, Uri uri) {
+                Log.i("ExternalStorage", "Scanned " + path + ":");
+                Log.i("ExternalStorage", "-> uri=" + uri);
+                galleryUpdated(path);
+            }
+        });
     }
 
     private void dispatchOpenGallery()
@@ -299,19 +324,19 @@ public class AndroidUtils extends QtActivity
         int rotation = ExifInterface.ORIENTATION_NORMAL;
         Log.d("HUEG","orientation = " + orientation);
 
-        // switch (orientation) {
-        //     case 90:
-        //         rotation = ExifInterface.ORIENTATION_ROTATE_270;
-        //         break;
-        //     case 180:
-        //         rotation = ExifInterface.ORIENTATION_ROTATE_180;
-        //         break;
-        //     case 270:
-        //         rotation = ExifInterface.ORIENTATION_ROTATE_90;
-        //         break;
-        //     default:
-        //         break;
-        // }
+        switch (orientation) {
+            case 90:
+                rotation = ExifInterface.ORIENTATION_ROTATE_90;
+                break;
+            case 180:
+                rotation = ExifInterface.ORIENTATION_ROTATE_180;
+                break;
+            case 270:
+                rotation = ExifInterface.ORIENTATION_ROTATE_270;
+                break;
+            default:
+                break;
+        }
 
         try {
         //InputStream input = context.getContentResolver().openInputStream(selectedImage);
@@ -321,7 +346,7 @@ public class AndroidUtils extends QtActivity
         // else
             ei = new ExifInterface(selectedImage.getPath());
 
-        ei.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
+        ei.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(rotation));
         
             ei.saveAttributes();
         }

@@ -17,11 +17,15 @@ public:
 
 signals:
     void imageLoaded(const QString& path);
+    void galleryUpdated(const QString& path);
 
 public slots:
     void openCamera();
     void openImage();
     void shareImage(const QString& path);
+
+    QString getTmagesLocation();
+    void updateGallery(const QString &imagePath);
 
     QString getImagePath();
 };

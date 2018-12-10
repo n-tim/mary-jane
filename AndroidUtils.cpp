@@ -20,6 +20,24 @@ Java_org_maryJane_AndroidUtils_fileSelected(JNIEnv */*env*/,
     AndroidUtils::instance().imageLoaded(QUrl::fromLocalFile(selectedFileName).toString());
 }
 
+#include <QUrl>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+JNIEXPORT void JNICALL
+Java_org_maryJane_AndroidUtils_galleryUpdated(JNIEnv */*env*/,
+                                                             jobject /*obj*/,
+                                                             jstring fileName)
+{
+    QString selectedFileName = QAndroidJniObject(fileName).toString();
+
+    qDebug() << "filename = " << selectedFileName;
+
+    AndroidUtils::instance().galleryUpdated(QUrl::fromLocalFile(selectedFileName).toString());
+}
+
 JNIEXPORT void JNICALL
 Java_org_maryJane_AndroidUtils_photoTaken(JNIEnv */*env*/,
                                                              jobject /*obj*/,
@@ -71,6 +89,23 @@ void AndroidUtils::shareImage(const QString& path)
     QAndroidJniObject::callStaticMethod<void>("org/maryJane/AndroidUtils",
                                               "shareImage",
                                               "(Ljava/lang/String;)V",filePathStringObject.object<jstring>());
+}
+
+QString AndroidUtils::getTmagesLocation()
+{
+    QAndroidJniObject javaLocation = QAndroidJniObject::callStaticObjectMethod("org/maryJane/AndroidUtils",
+                                                                                        "getImagesLocation",
+                                                                                        "()Ljava/lang/String;");
+    return QAndroidJniObject(javaLocation).toString();
+}
+
+void AndroidUtils::updateGallery(const QString &imagePath)
+{
+    QAndroidJniObject filePathStringObject = QAndroidJniObject::fromString(imagePath);
+    QAndroidJniObject::callStaticMethod<void>("org/maryJane/AndroidUtils",
+                                              "updateGallery",
+                                              "(Ljava/lang/String;)V",filePathStringObject.object<jstring>());
+}
 }
 
 QString AndroidUtils::getImagePath()

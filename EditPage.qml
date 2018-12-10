@@ -8,14 +8,16 @@ Page {
 
     property var stack: null
 
+    property string framePath;
     property string photoPath;
 
     ColumnLayout {
         anchors.fill: parent
 
         Item {
+            id: scene
             Layout.fillWidth: true
-            Layout.minimumHeight: width
+            Layout.minimumHeight: frame.height
 
             clip: true
 
@@ -26,8 +28,8 @@ Page {
 
                 width: parent.width
 
-                x: (parent.width - width) / 2
-                y: (parent.height - height) / 2
+                x: 0
+                y: 0
 
                 source: photoPath
                 asynchronous: true
@@ -39,6 +41,22 @@ Page {
                 onRotationChanged: {
                     console.log("rotation = " + rotation);
                 }
+
+                onScaleChanged: {
+                    console.log("scale = " + scale);
+                }
+
+                onXChanged: {
+                    console.log("x = " + x);
+                }
+
+                onYChanged: {
+                    console.log("y = " + y);
+                }
+
+                onWidthChanged: {
+                    console.log("width = " + width);
+                }
             }
 
             PinchArea {
@@ -48,8 +66,8 @@ Page {
 
                 pinch.minimumRotation: -360
                 pinch.maximumRotation: 360
-                pinch.minimumScale: 0.001
-                pinch.maximumScale: 100
+                pinch.minimumScale: 0.1
+                pinch.maximumScale: 10
                 pinch.dragAxis: Pinch.XAndYAxis
 
 
@@ -61,24 +79,37 @@ Page {
                     scrollGestureEnabled: false
                 }
 
-                Rectangle {
-                    anchors.fill: parent
+                Image {
+                    id: frame
+                    width: parent.width
 
-                    color: "transparent"
-                    border.width: width * 0.05
-                    border.color: "black"
+                    fillMode: Image.PreserveAspectFit
 
-                    Label {
-                        anchors.bottom: parent.bottom
-                        anchors.right: parent.right
 
-                        anchors.bottomMargin: 20
-                        anchors.rightMargin: 20
+                    autoTransform: true
 
-                        text: "frame"
-                        font.pixelSize: 30
-                    }
+                    asynchronous: true
+                    source: framePath
                 }
+
+//                Rectangle {
+//                    anchors.fill: parent
+
+//                    color: "transparent"
+//                    border.width: width * 0.05
+//                    border.color: "black"
+
+//                    Label {
+//                        anchors.bottom: parent.bottom
+//                        anchors.right: parent.right
+
+//                        anchors.bottomMargin: 20
+//                        anchors.rightMargin: 20
+
+//                        text: "frame"
+//                        font.pixelSize: 30
+//                    }
+//                }
 
             }
         }
@@ -91,7 +122,20 @@ Page {
                 flat: true
 
                 onClicked: {
-                    maryJane.saveButtonPressed();
+                    console.log("targetX = " + target.x);
+                    console.log("targetY = " + target.y);
+                    var mappedPoint = mapToItem(target, frame.x, frame.y);
+
+                    console.log("mappedX = " + mappedPoint.x);
+                    console.log("mappedY = " + mappedPoint.y);
+
+                    maryJane.saveButtonPressed(photoPath, framePath, target.rotation, target.scale, mappedPoint.x / frame.width, mappedPoint.y / frame.height);
+
+                    //var fileName = maryJane.getImagePath();
+
+//                    scene.grabToImage(function(result) {
+//                        result.saveToFile(fileName);
+//                    });
                 }
             }
 
@@ -117,3 +161,4 @@ Page {
     }
 
 }
+

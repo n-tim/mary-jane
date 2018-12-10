@@ -1,0 +1,24 @@
+Alexey Edelev, [7 Dec 2018 at 15:16:20]:
+
+fun getExifBasedRotation(path: String): Matrix {
+    if(!File(path).exists()) {
+        return Matrix()
+    }
+    //Exif based rotation
+    val exif = ExifInterface(path)
+    val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
+    return Matrix().apply {
+        setRotate(when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> 90f
+            ExifInterface.ORIENTATION_ROTATE_180 -> 180f
+            else -> 0f
+        })
+    }
+}
+
+val scaled = BitmapFactory.decodeFile(uri.path, BitmapFactory.Options().apply { inSampleSize = sampleSize })
+if(scaled != null) {
+		val rotated = Bitmap.createBitmap(scaled, 0, 0, scaled.width, scaled.height,
+						Matrix().apply { setRotate(mExifRotation) }, true)
+mMainHandler.post { setImageBitmap(rotated) }
+}

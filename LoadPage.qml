@@ -6,6 +6,10 @@ import QtQuick.Dialogs 1.2
 
 Page {
     property var stack: null
+
+    property string framePath;
+    property string photoPath;
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -19,7 +23,7 @@ Page {
             autoTransform: true
 
             asynchronous: true
-            source: "storage/emulated/0/Pictures/MaryJane_20181202_201044_3233264120936053090.png"
+            source: "~/test.jpg"
         }
 
         Button {
@@ -45,7 +49,7 @@ Page {
             Layout.fillHeight: true
             text: "continue"
             onClicked: {
-                stack.push(Qt.resolvedUrl("EditPage.qml"), {"photoPath": preview.source, "stack": stack});
+                stack.push(Qt.resolvedUrl("EditPage.qml"), {"photoPath": preview.source, "framePath": framePath, "stack": stack});
             }
         }
     }
@@ -54,6 +58,7 @@ Page {
         target: maryJane
         onImageLoaded: {
             console.log("image loaded: " + path);
+            photoPath = path;
             preview.source = /*"file:///" + */path;
         }
     }

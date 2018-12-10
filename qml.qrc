@@ -7,5 +7,24 @@
         <file>WelcomePage.qml</file>
         <file>LoadPage.qml</file>
         <file>EditPage.qml</file>
+        <file>Camera.qml</file>
+        <file>AndroidUtils.cpp</file>
+        <file>AndroidUtils.h</file>
+        <file>main.cpp</file>
+        <file>MaryJane.cpp</file>
+        <file>MaryJane.h</file>
+        <file>frames/10_ba.png</file>
+        <file>frames/9_shlyapki.png</file>
+        <file>frames/8_seno.png</file>
+        <file>frames/5_birthday.png</file>
+        <file>frames/4_derevo.png</file>
+        <file>frames/3_clumba.png</file>
+        <file>frames/2_tiger.png</file>
+        <file>frames/1_fountain.png</file>
+        <file>icons/baseline_arrow_back_ios_black_48dp.png</file>
+        <file>icons/baseline_insert_photo_black_48dp.png</file>
+        <file>icons/baseline_photo_camera_black_48dp.png</file>
+        <file>icons/baseline_photo_library_black_48dp.png</file>
+        <file>icons/baseline_share_black_48dp.png</file>
     </qresource>
 </RCC>

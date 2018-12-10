@@ -10,38 +10,38 @@ Page {
     //anchors.fill: parent
 
     ListModel {
-        id: testModel
+        id: framesModel
 
         ListElement {
-            color: "red"
+            path: "qrc:/frames/10_ba.png"
         }
 
         ListElement {
-            color: "blue"
+            path: "qrc:/frames/1_fountain.png"
         }
 
         ListElement {
-            color: "yellow"
+            path: "qrc:/frames/2_tiger.png"
         }
 
         ListElement {
-            color: "black"
+            path: "qrc:/frames/3_clumba.png"
         }
 
         ListElement {
-            color: "red"
+            path: "qrc:/frames/4_derevo.png"
         }
 
         ListElement {
-            color: "blue"
+            path: "qrc:/frames/5_birthday.png"
         }
 
         ListElement {
-            color: "yellow"
+            path: "qrc:/frames/8_seno.png"
         }
 
         ListElement {
-            color: "black"
+            path: "qrc:/frames/9_shlyapki.png"
         }
     }
 
@@ -51,33 +51,17 @@ Page {
         Item {
             width: GridView.view.cellWidth
             height: GridView.view.cellHeight
-            Rectangle {
+
+            Image {
                 anchors.fill: parent
                 anchors.margins: 10
-                //width: height
-                //height: PathView.view.height
 
-                //y: PathView.isCurrentItem && !PathView.view.moving ? 50 : 0
+                sourceSize.width: width
+                sourceSize.height: height
+                autoTransform: true
 
-                //scale: PathView.isCurrentItem && !PathView.view.moving ? 1.2 : 1// PathView.iconScale
-                //opacity: PathView.iconOpacity
-                //z: PathView.iconOrder
-
-                border.color: "black"
-                border.width: 2
-                //color: model.color
-                //Behavior on scale { NumberAnimation {}}
-
-                //property real rot: PathView.isCurrentItem ? 0 : (PathView.iconAngle > 0 ? 45 : -45)
-
-                //transform: Rotation { origin.x: width/2; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: rot }
-                //Behavior on transform { NumberAnimation {} }
-
-                Label {
-                    anchors.centerIn: parent
-                    font.pixelSize: parent.width / 3
-                    text: index
-                }
+                asynchronous: true
+                source: model.path
 
                 MouseArea {
                     anchors.fill: parent
@@ -86,7 +70,7 @@ Page {
                         //GridView.view.currentIndex = index;
 
                         console.log("clicked!");
-                        stack.push(Qt.resolvedUrl("LoadPage.qml"), { "stack": stack });
+                        stack.push(Qt.resolvedUrl("LoadPage.qml"), { "framePath": model.path, "stack": stack });
                     }
                 }
             }
@@ -101,7 +85,7 @@ Page {
         cellWidth: width / columns
         cellHeight: cellWidth
 
-        model: 20
+        model: framesModel
         delegate: delegate
     }
 

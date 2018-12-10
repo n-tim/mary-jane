@@ -1,5 +1,6 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
+import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.3
 
 ApplicationWindow {
@@ -9,27 +10,31 @@ ApplicationWindow {
     height: 500
     title: qsTr("Stack")
 
-//    header: ToolBar {
-//        contentHeight: toolButton.implicitHeight
+    Material.theme: Material.Dark
+    Material.accent: Material.Purple
 
-//        ToolButton {
-//            id: toolButton
-//            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
-//            font.pixelSize: Qt.application.font.pixelSize * 1.6
-//            onClicked: {
-//                if (stackView.depth > 1) {
-//                    stackView.pop()
-//                } else {
-//                    drawer.open()
-//                }
-//            }
-//        }
+    header: ToolBar {
+        RowLayout {
+            ToolButton {
+                id: toolButton
+                onClicked: {
+                    if (stackView.depth > 1) {
+                        stackView.pop()
+                    }
+                }
 
-//        Label {
-//            text: stackView.currentItem.title
-//            anchors.centerIn: parent
-//        }
-//    }
+            }
+
+            Label {
+                text: "Page text"
+                font.italic: true
+
+                horizontalAlignment: Qt.AlignRight
+                verticalAlignment: Qt.AlignVCenter
+                Layout.fillWidth: true
+            }
+        }
+    }
 
 //    Drawer {
 //        id: drawer

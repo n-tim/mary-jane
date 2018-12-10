@@ -12,7 +12,7 @@ public:
 signals:
     void cameraButtonPressed();
     void loadButtonPressed();
-    void saveButtonPressed();
+    void saveButtonPressed(const QString& imagePath, const QString& framePath, const float rotation, const float scale, const float imageX, const float imageY);
     void shareButtonPressed();
 
 signals:
@@ -24,7 +24,7 @@ public slots:
 private slots:
     void onCameraButtonPressed();
     void onLoadButtonPressed();
-    void onSaveButtonPressed();
+    void onSaveButtonPressed(const QString& imagePath, const QString& framePath, const float rotation, const float scale, const float imageX, const float imageY);
     void onShareButtonPressed();
 };
 
