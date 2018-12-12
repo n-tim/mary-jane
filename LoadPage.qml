@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import QtMultimedia 5.8
 import QtQuick.Dialogs 1.2
@@ -12,44 +13,35 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
-
-        Image {
-            id: preview
-            Layout.fillWidth: true
-            Layout.minimumHeight: width
-
-            sourceSize.width: width
-            sourceSize.height: height
-            autoTransform: true
-
-            asynchronous: true
-            source: "~/test.jpg"
-        }
+        spacing: 0
 
         Button {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            text: "camera"
+            flat: true
             onClicked: {
                 maryJane.cameraButtonPressed();
-                //preview.source = maryJane.getImagePath();
+            }
+
+            indicator: Image {
+                anchors.centerIn: parent
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/icons/baseline_photo_camera_white_48dp.png"
             }
         }
+
         Button {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            text: "load"
+            flat: true
             onClicked: {
                 maryJane.loadButtonPressed();
-                //preview.source = maryJane.getImagePath();
             }
-        }
-        Button {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            text: "continue"
-            onClicked: {
-                stack.push(Qt.resolvedUrl("EditPage.qml"), {"photoPath": preview.source, "framePath": framePath, "stack": stack});
+
+            indicator: Image {
+                anchors.centerIn: parent
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/icons/baseline_photo_library_white_48dp.png"
             }
         }
     }
@@ -59,7 +51,7 @@ Page {
         onImageLoaded: {
             console.log("image loaded: " + path);
             photoPath = path;
-            preview.source = /*"file:///" + */path;
+            stack.push(Qt.resolvedUrl("EditPage.qml"), {"photoPath": photoPath, "framePath": framePath, "stack": stack});
         }
     }
 }

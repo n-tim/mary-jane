@@ -13,6 +13,9 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
+        anchors.topMargin: 10
+
+        spacing: 10
 
         Item {
             id: scene
@@ -40,10 +43,14 @@ Page {
 
                 onRotationChanged: {
                     console.log("rotation = " + rotation);
+                    console.log("rotation.x = " + x);
+                    console.log("rotation.y = " + y);
                 }
 
                 onScaleChanged: {
                     console.log("scale = " + scale);
+                    console.log("scale.x = " + x);
+                    console.log("scale.y = " + y);
                 }
 
                 onXChanged: {
@@ -91,57 +98,47 @@ Page {
                     asynchronous: true
                     source: framePath
                 }
-
-//                Rectangle {
-//                    anchors.fill: parent
-
-//                    color: "transparent"
-//                    border.width: width * 0.05
-//                    border.color: "black"
-
-//                    Label {
-//                        anchors.bottom: parent.bottom
-//                        anchors.right: parent.right
-
-//                        anchors.bottomMargin: 20
-//                        anchors.rightMargin: 20
-
-//                        text: "frame"
-//                        font.pixelSize: 30
-//                    }
-//                }
-
             }
         }
 
         RowLayout {
-            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
+            spacing: 10
 
             Button {
-                text: "save"
                 flat: true
+
+                Image {
+                    anchors.fill: parent
+                    //anchors.margins: parent.width * 0.2
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/icons/baseline_save_alt_white_48dp.png"
+                }
 
                 onClicked: {
                     console.log("targetX = " + target.x);
                     console.log("targetY = " + target.y);
-                    var mappedPoint = mapToItem(target, frame.x, frame.y);
+                    //var mappedPoint = mapToItem(target, frame.x, frame.y);
 
-                    console.log("mappedX = " + mappedPoint.x);
-                    console.log("mappedY = " + mappedPoint.y);
 
-                    maryJane.saveButtonPressed(photoPath, framePath, target.rotation, target.scale, mappedPoint.x / frame.width, mappedPoint.y / frame.height);
+                    //console.log("mappedX = " + mappedPoint.x);
+                    //console.log("mappedY = " + mappedPoint.y);
 
-                    //var fileName = maryJane.getImagePath();
-
-//                    scene.grabToImage(function(result) {
-//                        result.saveToFile(fileName);
-//                    });
+                    //busyIndicator.ru = true;
+                    maryJane.saveButtonPressed(photoPath, framePath, target.rotation, target.scale, (target.x + target.width * 0.5) / frame.width, (target.y  + target.height * 0.5) / frame.height);
                 }
             }
 
             Button {
-                text: "share"
                 flat: true
+
+                Image {
+                    anchors.fill: parent
+                    //anchors.margins: parent.width * 0.2
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/icons/baseline_share_white_48dp.png"
+                }
 
                 onClicked: {
                     maryJane.shareButtonPressed();
@@ -149,8 +146,22 @@ Page {
             }
 
             Button {
-                text: "reset"
                 flat: true
+
+                onClicked: {
+                    target.width = scene.width
+                    target.x = 0;
+                    target.y = 0;
+                    target.scale = 1;
+                    target.rotation = 0;
+                }
+
+                indicator: Image {
+                    anchors.fill: parent
+                    //anchors.margins: parent.width * 0.2
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/icons/baseline_clear_white_48dp.png"
+                }
             }
         }
 
@@ -158,6 +169,14 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
+    }
+
+    PageIndicator {
+        id: busyIndicator
+        parent: ApplicationWindow.overlay
+        anchors.centerIn: parent
+
+
     }
 
 }

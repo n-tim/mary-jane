@@ -72,15 +72,26 @@ void MaryJane::onSaveButtonPressed(const QString &imagePath, const QString &fram
     qDebug() << "imageX = " << imageX;
     qDebug() << "imageY = " << imageY;
 
+//    QImageReader photoReader(QUrl(imagePath).toLocalFile());
+//    photoReader.setAutoTransform(true);
+//    QImage photo = photoReader.read();
+
+//    QImage frame(":/frames/3_clumba.png");
+
+//    QPixmap background(frame.width(), frame.height());
+//    background.fill();
+
+
+
     QImageReader photoReader(QUrl(imagePath).toLocalFile());
     photoReader.setAutoTransform(true);
 
     QImage img = photoReader.read();
     qDebug() << photoReader.errorString();
-    QImage frame(":/frames/3_clumba.png");
+    QImage frame(framePath.mid(3));
 
     qDebug() << "isNUll = " << frame.isNull() << " framePath = " << framePath;
-
+    qDebug() << "rect = " << img.rect();
     img = img.scaledToWidth(frame.width());
 
     qDebug() << "rect = " << img.rect();
@@ -88,22 +99,32 @@ void MaryJane::onSaveButtonPressed(const QString &imagePath, const QString &fram
     QTransform transform;
     transform.rotate(rotation);
     transform.scale(scale, scale);
-    QRect rect;
-    // if you do set width after set x , it is moving .
-    // set x before.
-    rect.setX(imageX * frame.width());
-    rect.setY(imageY * frame.height());
-    rect.setWidth(frame.width());
-    rect.setHeight(frame.height());
+
+
     qDebug() << "rect = " << img.rect();
     img = img.transformed(transform);//.copy(QRect(rect));
     qDebug() << "rect = " << img.rect();
+
+
+    QRect rect;
+    // if you do set width after set x , it is moving .
+    // set x before.
+    rect.setX(img.width() * 0.5 - imageX * frame.width());
+    rect.setY(img.height() * 0.5 - imageY * frame.height());
+    rect.setWidth(frame.width());
+    rect.setHeight(frame.height());
+    qDebug() << "just rect = " << rect;
+
+    img = img.copy(rect);
+
     QPainter painter;
+    //painter.rotate(rotation);
     painter.begin(&img);
-    painter.drawImage(rect, frame);
+    //painter.rotate(-rotation);
+    painter.drawImage(0,0, frame);
     painter.end();
 
-    img = img.copy(QRect(rect));
+    //img = img.copy(rect);
 
 #ifdef Q_OS_ANDROID
     QString path = AndroidUtils::instance().getTmagesLocation() + ".png";
@@ -113,7 +134,7 @@ void MaryJane::onSaveButtonPressed(const QString &imagePath, const QString &fram
 
     QImageWriter writer(path);
 
-    bool saved = writer.write(frame);
+    bool saved = writer.write(img);
 
     qDebug() << "saved = " << saved << " error = " << writer.errorString();
 

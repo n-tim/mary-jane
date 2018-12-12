@@ -7,62 +7,51 @@ ApplicationWindow {
     id: window
     visible: true
     width: 300
-    height: 500
+    height: 533
     title: qsTr("Stack")
 
     Material.theme: Material.Dark
-    Material.accent: Material.Purple
+    Material.background: Material.White
+    Material.primary: Material.Green
+    Material.foreground: Material.White
+    Material.accent: Material.Orange
 
     header: ToolBar {
         RowLayout {
-            ToolButton {
+            Button {
                 id: toolButton
+                flat: true
+                //enabled: stackView.depth > 1
                 onClicked: {
                     if (stackView.depth > 1) {
                         stackView.pop()
                     }
                 }
 
+                indicator: Image {
+                    visible: stackView.depth > 1
+                    anchors.fill: parent
+                    anchors.margins: parent.width * 0.2
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/icons/baseline_arrow_back_ios_white_48dp.png"
+                }
+            }
+
+            Item {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
             }
 
             Label {
-                text: "Page text"
-                font.italic: true
+                text: "PAGE TITLE"
 
-                horizontalAlignment: Qt.AlignRight
-                verticalAlignment: Qt.AlignVCenter
-                Layout.fillWidth: true
+                elide: Label.ElideRight
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+                //Layout.fillWidth: true
             }
         }
     }
-
-//    Drawer {
-//        id: drawer
-//        width: window.width * 0.66
-//        height: window.height
-
-//        ColumnLayout {
-//            anchors.fill: parent
-
-//            ItemDelegate {
-//                text: qsTr("Settings")
-//                Layout.fillWidth: true
-//                onClicked: {
-//                    //stackView.push()
-//                    drawer.close()
-//                }
-//            }
-//            Item {
-//                Layout.fillHeight: true
-//                Layout.fillWidth: true
-
-//                Label {
-//                    text: "about"
-//                    anchors.centerIn: parent
-//                }
-//            }
-//        }
-//    }
 
     StackView {
         id: stackView
@@ -72,5 +61,14 @@ ApplicationWindow {
             }
         }
         anchors.fill: parent
+    }
+
+    onClosing: {
+        if (stackView.depth > 1) {
+            close.accepted = false
+            stackView.pop();
+        } else {
+            return;
+        }
     }
 }

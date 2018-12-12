@@ -1,13 +1,12 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import QtMultimedia 5.8
 import QtQuick.Dialogs 1.2
 
 Page {
-
     property var stack: null
-    //anchors.fill: parent
 
     ListModel {
         id: framesModel
@@ -52,26 +51,27 @@ Page {
             width: GridView.view.cellWidth
             height: GridView.view.cellHeight
 
-            Image {
+            Button {
                 anchors.fill: parent
-                anchors.margins: 10
+                flat: true
 
-                sourceSize.width: width
-                sourceSize.height: height
-                autoTransform: true
-
-                asynchronous: true
-                source: model.path
-
-                MouseArea {
+                Image {
                     anchors.fill: parent
+                    anchors.margins: 15
 
-                    onClicked: {
-                        //GridView.view.currentIndex = index;
+                    sourceSize.width: width
+                    sourceSize.height: height
+                    autoTransform: true
 
-                        console.log("clicked!");
-                        stack.push(Qt.resolvedUrl("LoadPage.qml"), { "framePath": model.path, "stack": stack });
-                    }
+                    asynchronous: true
+                    source: model.path
+                }
+
+                onClicked: {
+                    //GridView.view.currentIndex = index;
+
+                    console.log("clicked!");
+                    stack.push(Qt.resolvedUrl("LoadPage.qml"), { "framePath": model.path, "stack": stack });
                 }
             }
         }

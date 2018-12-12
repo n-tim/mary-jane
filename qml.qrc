@@ -26,5 +26,11 @@
         <file>icons/baseline_photo_camera_black_48dp.png</file>
         <file>icons/baseline_photo_library_black_48dp.png</file>
         <file>icons/baseline_share_black_48dp.png</file>
+        <file>icons/baseline_arrow_back_ios_white_48dp.png</file>
+        <file>icons/baseline_photo_camera_white_48dp.png</file>
+        <file>icons/baseline_photo_library_white_48dp.png</file>
+        <file>icons/baseline_share_white_48dp.png</file>
+        <file>icons/baseline_save_alt_white_48dp.png</file>
+        <file>icons/baseline_clear_white_48dp.png</file>
     </qresource>
 </RCC>
