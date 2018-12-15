@@ -134,9 +134,9 @@ void MaryJane::onSaveButtonPressed(const QString &imagePath, const QString &fram
 
     QImageWriter writer(path);
 
-    bool saved = writer.write(img);
+    bool isSaved = writer.write(img);
 
-    qDebug() << "saved = " << saved << " error = " << writer.errorString();
+    qDebug() << "saved = " << isSaved << " error = " << writer.errorString();
 
 #ifdef Q_OS_ANDROID
     AndroidUtils::instance().updateGallery(path);
@@ -146,14 +146,15 @@ void MaryJane::onSaveButtonPressed(const QString &imagePath, const QString &fram
 
     qDebug() << "path = " + path;
     qDebug() << "done";
+    saved(path);
 }
 
-void MaryJane::onShareButtonPressed()
+void MaryJane::onShareButtonPressed(const QString &path)
 {
-    qDebug() << "on share button pressed";
+    qDebug() << "on share button pressed" << "path = " << path;
 
 #ifdef Q_OS_ANDROID
-    AndroidUtils::instance().shareImage("asdfasdf");
+    AndroidUtils::instance().shareImage(path);
 #else
 #endif
 

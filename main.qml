@@ -10,13 +10,14 @@ ApplicationWindow {
     height: 533
     title: qsTr("Stack")
 
-    Material.theme: Material.Dark
+    Material.theme: Material.Light
     Material.background: Material.White
-    Material.primary: Material.Green
+    Material.primary: Qt.color("#0020ff");
     Material.foreground: Material.White
-    Material.accent: Material.Orange
+    Material.accent: Qt.color("#0020ff");
 
     header: ToolBar {
+        visible: stackView.depth > 1
         RowLayout {
             Button {
                 id: toolButton
@@ -28,13 +29,15 @@ ApplicationWindow {
                     }
                 }
 
-                indicator: Image {
-                    visible: stackView.depth > 1
-                    anchors.fill: parent
-                    anchors.margins: parent.width * 0.2
-                    fillMode: Image.PreserveAspectFit
-                    source: "qrc:/icons/baseline_arrow_back_ios_white_48dp.png"
-                }
+                icon.source: "qrc:/icons/baseline_arrow_back_ios_white_48dp.png"
+
+//                indicator: Image {
+//                    visible: stackView.depth > 1
+//                    anchors.fill: parent
+//                    anchors.margins: parent.width * 0.2
+//                    fillMode: Image.PreserveAspectFit
+//                    source: "qrc:/icons/baseline_arrow_back_ios_white_48dp.png"
+//                }
             }
 
             Item {

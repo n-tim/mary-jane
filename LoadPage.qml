@@ -23,11 +23,13 @@ Page {
                 maryJane.cameraButtonPressed();
             }
 
-            indicator: Image {
-                anchors.centerIn: parent
-                fillMode: Image.PreserveAspectFit
-                source: "qrc:/icons/baseline_photo_camera_white_48dp.png"
-            }
+            icon.source: "qrc:/icons/baseline_photo_camera_white_48dp.png"
+
+//            indicator: Image {
+//                anchors.centerIn: parent
+//                fillMode: Image.PreserveAspectFit
+//                source: "qrc:/icons/baseline_photo_camera_white_48dp.png"
+//            }
         }
 
         Button {

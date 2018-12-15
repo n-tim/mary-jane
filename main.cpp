@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include <QtGlobal>
+
 #include <MaryJane.h>
 
 int main(int argc, char *argv[])
@@ -18,7 +20,12 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty("maryJane", maryJane);
+
+#ifdef Q_OS_ANDROID
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+#else
+    engine.load(QUrl("main.qml"));
+#endif
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }

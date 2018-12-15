@@ -13,10 +13,11 @@ signals:
     void cameraButtonPressed();
     void loadButtonPressed();
     void saveButtonPressed(const QString& imagePath, const QString& framePath, const float rotation, const float scale, const float imageX, const float imageY);
-    void shareButtonPressed();
+    void shareButtonPressed(const QString& path);
 
 signals:
     void imageLoaded(const QString& path);
+    void saved(const QString& path);
 
 public slots:
     Q_INVOKABLE QString getImagePath();
@@ -25,7 +26,7 @@ private slots:
     void onCameraButtonPressed();
     void onLoadButtonPressed();
     void onSaveButtonPressed(const QString& imagePath, const QString& framePath, const float rotation, const float scale, const float imageX, const float imageY);
-    void onShareButtonPressed();
+    void onShareButtonPressed(const QString& path);
 };
 
 #endif // MARYJANE_H

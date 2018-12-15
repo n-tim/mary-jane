@@ -32,5 +32,6 @@
         <file>icons/baseline_share_white_48dp.png</file>
         <file>icons/baseline_save_alt_white_48dp.png</file>
         <file>icons/baseline_clear_white_48dp.png</file>
+        <file>cost.gif</file>
     </qresource>
 </RCC>
