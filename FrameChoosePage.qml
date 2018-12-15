@@ -54,6 +54,7 @@ Page {
             Button {
                 anchors.fill: parent
                 flat: true
+                padding: 0
 
                 Image {
                     anchors.fill: parent

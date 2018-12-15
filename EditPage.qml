@@ -103,11 +103,13 @@ Page {
         }
 
         RowLayout {
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.fillWidth: true
 
-            spacing: 10
+            spacing: 0
 
             Button {
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                Layout.fillWidth: true
                 flat: true
 
                 icon.source: "qrc:/icons/baseline_save_alt_white_48dp.png"
@@ -117,6 +119,7 @@ Page {
                 onClicked: {
                     console.log("targetX = " + target.x);
                     console.log("targetY = " + target.y);
+                    busyPopup.open();
                     maryJane.saveButtonPressed(photoPath, framePath, target.rotation, target.scale, (target.x + target.width * 0.5) / frame.width, (target.y  + target.height * 0.5) / frame.height);
                 }
             }
@@ -149,10 +152,27 @@ Page {
         }
     }
 
-    PageIndicator {
-        id: busyIndicator
-        parent: ApplicationWindow.overlay
-        anchors.centerIn: parent
+    Popup {
+        id: busyPopup
+
+        focus: false
+        modal: true
+
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+
+        padding: 0
+
+        background: Rectangle { color: "transparent" }
+
+        BusyIndicator {
+            id: busyIndicator
+            //parent: ApplicationWindow.overlay
+            anchors.centerIn: parent
+            running: busyPopup.visible
+        }
+
+        closePolicy: Popup.NoAutoClose
     }
 
     Popup {
@@ -214,6 +234,7 @@ Page {
 
                 onClicked: {
                     maryJane.shareButtonPressed(popup.path);
+                    popup.close();
                 }
             }
 
@@ -223,6 +244,7 @@ Page {
     Connections {
         target: maryJane
         onSaved: {
+            busyPopup.close();
             popup.path = path
             popup.open();
         }

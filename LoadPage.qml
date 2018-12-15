@@ -19,23 +19,25 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
             flat: true
+            padding: 0
             onClicked: {
                 maryJane.cameraButtonPressed();
             }
 
-            icon.source: "qrc:/icons/baseline_photo_camera_white_48dp.png"
+            //icon.source: "qrc:/icons/baseline_photo_camera_white_48dp.png"
 
-//            indicator: Image {
-//                anchors.centerIn: parent
-//                fillMode: Image.PreserveAspectFit
-//                source: "qrc:/icons/baseline_photo_camera_white_48dp.png"
-//            }
+            indicator: Image {
+                anchors.centerIn: parent
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/icons/baseline_photo_camera_black_48dp.png"
+            }
         }
 
         Button {
             Layout.fillWidth: true
             Layout.fillHeight: true
             flat: true
+            padding: 0
             onClicked: {
                 maryJane.loadButtonPressed();
             }
@@ -43,7 +45,7 @@ Page {
             indicator: Image {
                 anchors.centerIn: parent
                 fillMode: Image.PreserveAspectFit
-                source: "qrc:/icons/baseline_photo_library_white_48dp.png"
+                source: "qrc:/icons/baseline_photo_library_black_48dp.png"
             }
         }
     }

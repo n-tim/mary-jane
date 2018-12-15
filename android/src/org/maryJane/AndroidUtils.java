@@ -329,7 +329,7 @@ public class AndroidUtils extends QtActivity
                 rotation = ExifInterface.ORIENTATION_ROTATE_90;
                 break;
             case 180:
-                rotation = ExifInterface.ORIENTATION_ROTATE_180;
+                rotation = ExifInterface.ORIENTATION_NORMAL;
                 break;
             case 270:
                 rotation = ExifInterface.ORIENTATION_ROTATE_270;

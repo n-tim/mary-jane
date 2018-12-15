@@ -8,13 +8,13 @@ ApplicationWindow {
     visible: true
     width: 300
     height: 533
-    title: qsTr("Stack")
+    title: "Articulus et Bahila"
 
     Material.theme: Material.Light
-    Material.background: Material.White
-    Material.primary: Qt.color("#0020ff");
+    //Material.background: Material.White
+    Material.primary: "#0020ff"
     Material.foreground: Material.White
-    Material.accent: Qt.color("#0020ff");
+    Material.accent: "#0020ff"
 
     header: ToolBar {
         visible: stackView.depth > 1
@@ -22,6 +22,7 @@ ApplicationWindow {
             Button {
                 id: toolButton
                 flat: true
+                padding: 0
                 //enabled: stackView.depth > 1
                 onClicked: {
                     if (stackView.depth > 1) {
@@ -30,6 +31,7 @@ ApplicationWindow {
                 }
 
                 icon.source: "qrc:/icons/baseline_arrow_back_ios_white_48dp.png"
+                Material.theme: Material.Dark
 
 //                indicator: Image {
 //                    visible: stackView.depth > 1
@@ -40,18 +42,19 @@ ApplicationWindow {
 //                }
             }
 
-            Item {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
-
             Label {
-                text: "PAGE TITLE"
+                text: "Articulus et Bahila"
 
                 elide: Label.ElideRight
-                horizontalAlignment: Text.AlignLeft
+                horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
                 //Layout.fillWidth: true
+
+                //Layout.alignment: Qt.AlignRight
+                Layout.fillWidth: true
+
+                Material.theme: Material.Dark
+
             }
         }
     }
