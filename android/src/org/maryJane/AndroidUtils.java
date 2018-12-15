@@ -14,7 +14,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.support.v4.content.FileProvider;
 
+import android.content.pm.PackageManager;
+import android.Manifest;
 import android.hardware.camera2.*;
 import android.media.*;
 import android.os.*;
@@ -41,6 +44,8 @@ public class AndroidUtils extends QtActivity
     final static int PICK_PHOTO_CODE = 1046;
 
     private static AndroidUtils m_instance;
+
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
     String mCurrentPhotoPath;
 
@@ -108,6 +113,28 @@ public class AndroidUtils extends QtActivity
     }
 
     @Override
+    public void onStart()
+    {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+            if ((checkSelfPermission(Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_DENIED) && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_DENIED) && (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_DENIED) && (checkSelfPermission(Manifest.permission.RECORD_AUDIO)
+                    == PackageManager.PERMISSION_DENIED)) {
+
+                Log.d("permission", "permission denied to SEND_SMS - requesting it");
+                String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO};
+
+                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+
+            }
+        }
+
+        super.onStart();
+    }
+
+    @Override
     protected void onDestroy()
     {
         super.onDestroy();
@@ -149,8 +176,11 @@ public class AndroidUtils extends QtActivity
                 // Bitmap imageBitmap = (Bitmap) extras.get("data");
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                File f = new File(mCurrentPhotoPath);
-                Uri contentUri = Uri.fromFile(f);
+                File file = new File(mCurrentPhotoPath);
+                Uri contentUri = FileProvider.getUriForFile(
+                             this,
+                             this.getApplicationContext()
+                             .getPackageName() + ".provider", file);
 
                 changeOrientation(contentUri);
                 
@@ -215,10 +245,16 @@ public class AndroidUtils extends QtActivity
 
       File file = new File(filePath);
 
+      Uri fileUri = FileProvider.getUriForFile(
+                             this,
+                             this.getApplicationContext()
+                             .getPackageName() + ".provider", file);
+
       Intent shareIntent = new Intent();
       shareIntent.setAction(Intent.ACTION_SEND);
-      shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-      shareIntent.setType("image/png");
+      shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+      shareIntent.setType("image/*");
+      shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
       /*QtNative.activity().*/startActivity(Intent.createChooser(shareIntent, "Share"));
     }
@@ -230,26 +266,27 @@ public class AndroidUtils extends QtActivity
     //        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
     //    }
 
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                //...
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = Uri.fromFile(photoFile);
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            // Error occurred while creating the File
+            //...
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null) {
+            Uri photoURI = FileProvider.getUriForFile(
+                             this,
+                             this.getApplicationContext()
+                             .getPackageName() + ".provider", photoFile);
 //                Uri photoURI = FileProvider.getUriForFile(this,
 //                                                      "com.example.android.fileprovider",
 //                                                      photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
     }
 

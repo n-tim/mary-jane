@@ -46,6 +46,7 @@ android {
         android/gradle/wrapper/gradle-wrapper.jar \
         android/gradlew \
         android/res/values/libs.xml \
+        android/res/xml/provider_paths.xml \
         android/build.gradle \
         android/gradle/wrapper/gradle-wrapper.properties \
         android/gradlew.bat
