@@ -11,37 +11,23 @@ Page {
     ListModel {
         id: framesModel
 
-        ListElement {
-            path: "qrc:/frames/10_ba.png"
-        }
-
-        ListElement {
-            path: "qrc:/frames/1_fountain.png"
-        }
-
-        ListElement {
-            path: "qrc:/frames/2_tiger.png"
-        }
-
-        ListElement {
-            path: "qrc:/frames/3_clumba.png"
-        }
-
-        ListElement {
-            path: "qrc:/frames/4_derevo.png"
-        }
-
-        ListElement {
-            path: "qrc:/frames/5_birthday.png"
-        }
-
-        ListElement {
-            path: "qrc:/frames/8_seno.png"
-        }
-
-        ListElement {
-            path: "qrc:/frames/9_shlyapki.png"
-        }
+        ListElement { path: "qrc:/frames/1.png"; }
+        ListElement { path: "qrc:/frames/2.png"; }
+        ListElement { path: "qrc:/frames/3.png"; }
+        ListElement { path: "qrc:/frames/4.png"; }
+        ListElement { path: "qrc:/frames/5.png"; }
+        ListElement { path: "qrc:/frames/6.png"; }
+        ListElement { path: "qrc:/frames/7.png"; }
+        ListElement { path: "qrc:/frames/8.png"; }
+        ListElement { path: "qrc:/frames/9.png"; }
+        ListElement { path: "qrc:/frames/10.png"; }
+        ListElement { path: "qrc:/frames/11.png"; }
+        ListElement { path: "qrc:/frames/12.png"; }
+        ListElement { path: "qrc:/frames/13.png"; }
+        ListElement { path: "qrc:/frames/14.png"; }
+        ListElement { path: "qrc:/frames/15.png"; }
+        ListElement { path: "qrc:/frames/16.png"; }
+        ListElement { path: "qrc:/frames/17.png"; }
     }
 
     Component {
@@ -63,6 +49,8 @@ Page {
                     sourceSize.width: width
                     sourceSize.height: height
                     autoTransform: true
+
+                    fillMode: Image.PreserveAspectFit
 
                     asynchronous: true
                     source: model.path
